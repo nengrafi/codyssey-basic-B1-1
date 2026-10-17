@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="AI와 소프트웨어를 공부하는 학생의 반응형 포트폴리오">
+    <meta name="theme-color" content="#ffffff">
+    <title>나를 소개합니다 | 포트폴리오</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+    <header>
+      <div class="header-inner">
+        <h1><a href="#home">My Portfolio</a></h1>
+        <nav id="site-nav" aria-label="주요 메뉴">
+          <a href="#home">홈</a>
+          <a href="#about">소개</a>
+          <a href="#skills">기술</a>
+          <a href="#projects">프로젝트</a>
+          <a href="#contact">연락</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button menu-toggle" id="menu-toggle" type="button"
+            aria-label="메뉴 열기" aria-expanded="false" aria-controls="site-nav">☰</button>
+          <button class="icon-button" id="theme-toggle" type="button"
+            aria-label="다크 모드 켜기" aria-pressed="false">☾</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section id="home" aria-labelledby="home-title">
+        <p class="eyebrow">HELLO, WORLD</p>
+        <h2 id="home-title">안녕하세요,<br>배우고 만드는 개발자 <span class="accent">홍길동</span>입니다.</h2>
+        <p class="intro">AI와 소프트웨어를 공부하며, 아이디어를 사용자에게 닿는 웹 경험으로 만드는 일을 좋아합니다.</p>
+        <div class="hero-actions">
+          <a class="button" href="#projects">프로젝트 보기</a>
+          <a class="button button-secondary" href="#contact">연락하기</a>
+        </div>
+      </section>
+
+      <section id="about" aria-labelledby="about-title">
+        <p class="eyebrow">ABOUT</p>
+        <h2 id="about-title">저를 소개합니다</h2>
+        <div class="about-content">
+          <img src="images/profile.svg" width="180" height="180" alt="홍길동의 프로필을 나타내는 기본 아바타">
+          <div>
+            <h3>배움을 실제 결과물로 연결합니다.</h3>
+            <p>저는 한양대학교 컴퓨터소프트웨어학부에서 AI와 소프트웨어의 기초를 배우고 있습니다. 새로운 기술을 익히는 데 그치지 않고, 작은 기능이라도 직접 구현하며 원리를 이해하려고 합니다.</p>
+            <p class="muted">관심 분야: 웹 프론트엔드, 인공지능, 사용자 경험</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" aria-labelledby="skills-title">
+        <p class="eyebrow">SKILLS</p>
+        <h2 id="skills-title">사용 기술</h2>
+        <p class="muted">학습 중인 기술을 정리했습니다. 경험에 맞게 항목을 수정하세요.</p>
+        <ul class="skill-list">
+          <li>HTML 시맨틱 마크업</li>
+          <li>CSS 반응형 레이아웃</li>
+          <li>JavaScript 기초</li>
+          <li>Git &amp; GitHub</li>
+          <li>Python 기초</li>
+        </ul>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-title">
+        <p class="eyebrow">PROJECTS</p>
+        <h2 id="projects-title">프로젝트</h2>
+        <p id="projects-note" class="muted">GitHub 공개 저장소를 불러옵니다.</p>
+        <p id="projects-status" role="status" aria-live="polite">프로젝트를 준비하고 있습니다.</p>
+        <div id="project-list" aria-busy="false"></div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-title">
+        <p class="eyebrow">CONTACT</p>
+        <h2 id="contact-title">연락하기</h2>
+        <p class="muted">궁금한 점이나 함께 나누고 싶은 이야기를 보내 주세요.</p>
+        <form id="contact-form">
+          <div class="form-field">
+            <label for="name">이름</label>
+            <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-error">
+            <p class="error-message" id="name-error"></p>
+          </div>
+          <div class="form-field">
+            <label for="email">이메일</label>
+            <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-error">
+            <p class="error-message" id="email-error"></p>
+          </div>
+          <div class="form-field">
+            <label for="message">메시지</label>
+            <textarea id="message" name="message" rows="6" maxlength="1000" required aria-describedby="message-error message-count"></textarea>
+            <p class="error-message" id="message-error"></p>
+            <p id="message-count" class="muted">0자 입력됨</p>
+          </div>
+          <button class="button" type="submit">입력 확인</button>
+          <p id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> 홍길동. All rights reserved.</p>
+      <p><a id="github-link" href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </footer>
+
+    <button class="icon-button" id="scroll-top" type="button" aria-label="페이지 맨 위로 이동" hidden>↑</button>
+  </body>
+</html>
