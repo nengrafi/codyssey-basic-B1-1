@@ -2,7 +2,7 @@
 
 이 문서는 이 저장소의 포트폴리오를 따라 읽으며 웹 페이지가 어떻게 만들어지고 동작하는지 익히기 위한 학습 자료입니다. 먼저 `index.html`에서 뼈대를 확인하고, `css/style.css`에서 화면을 꾸미고, `js/script.js`에서 사용자 입력과 데이터에 따라 화면을 바꾸는 흐름을 살펴보세요.
 
-> 시작하기 전에 `js/script.js`의 `GITHUB_USERNAME`을 본인 GitHub 아이디로 바꾸세요. HTML의 이름과 자기소개도 본인 정보로 수정할 수 있습니다. 브라우저 개발자 도구의 Console과 Network 탭은 오류와 API 요청을 확인하는 데 유용합니다.
+> `js/script.js`의 `GITHUB_USERNAME`은 현재 `nengrafi`로 설정되어 있습니다. 다른 계정을 사용한다면 본인 GitHub 아이디로 바꾸세요. HTML의 이름과 자기소개도 본인 정보로 수정할 수 있습니다. 브라우저 개발자 도구의 Console과 Network 탭은 오류와 API 요청을 확인하는 데 유용합니다.
 
 ## 1. 웹 페이지는 어떻게 동작할까?
 
@@ -24,7 +24,7 @@ css/style.css     색상, 간격, 레이아웃, 반응형 규칙
 js/script.js      이벤트, 상태, API 요청, DOM 업데이트
 images/           프로필 등 페이지 이미지
 README.md         프로젝트 실행 및 배포 안내
-tect.md           요구사항과 구현 원리를 설명하는 학습 문서
+tech.md           요구사항과 구현 원리를 설명하는 학습 문서
 ```
 
 HTML은 `css/style.css`를 `<link>`로 불러오고 `js/script.js`는 `defer`로 연결합니다. 상대 경로는 `index.html`이 있는 위치를 기준으로 계산되므로 파일을 옮기면 경로도 확인해야 합니다. `defer`는 HTML을 먼저 읽은 다음 스크립트를 실행하게 하므로 스크립트가 DOM 요소를 찾을 수 있습니다.
@@ -74,9 +74,47 @@ HTML 태그는 단순한 상자가 아니라 콘텐츠의 의미를 나타냅니
 
 한 방향 정렬은 Flexbox, 행·열 기반의 영역 배치는 Grid부터 고려하면 선택하기 쉽습니다. 두 도구는 함께 써도 됩니다.
 
+이 프로젝트의 헤더는 Flexbox로 로고와 컨트롤을 정렬합니다. `flex-wrap` 덕분에 좁은 화면에서는 요소가 다음 줄로 이동할 수 있습니다.
+
+```css
+.header-inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+```
+
+프로젝트 목록은 Grid를 사용합니다. 각 카드의 최소 너비는 280px이며, 컨테이너에 맞춰 열 수를 자동 조절하고 남는 공간을 열에 나눠 줍니다.
+
+```css
+#project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-lg);
+}
+```
+
 ### 모바일 퍼스트와 브레이크포인트
 
-기본 CSS는 작은 모바일 화면에 맞추고, `@media (min-width: 768px)`와 `@media (min-width: 1024px)`에서 넓은 화면을 확장합니다. 모바일에서는 메뉴를 감추고 햄버거 버튼을 보여주며, 태블릿 이상에서는 가로 메뉴를 표시합니다.
+모바일 퍼스트는 작은 화면의 필수 레이아웃을 기본으로 작성한 다음, 화면이 넓어질 때 `min-width` 미디어 쿼리로 점진적으로 확장하는 방식입니다. 작은 화면의 콘텐츠와 사용성을 먼저 보장하고, 모바일에서 쓰지 않는 넓은 레이아웃 규칙을 불필요하게 내려보내지 않는 장점이 있습니다. 이 프로젝트는 기본 CSS에서 메뉴를 감추고 햄버거 버튼을 보여주며, `@media (min-width: 768px)`에서 가로 메뉴와 2열 자기소개를 적용하고, `@media (min-width: 1024px)`에서 여백과 Hero 높이를 늘립니다.
+
+```css
+/* 기본 규칙: 모바일 */
+nav { display: none; }
+nav.active { display: flex; }
+
+/* 768px 이상: 태블릿 */
+@media (min-width: 768px) {
+  .menu-toggle { display: none; }
+  nav { display: flex; flex-direction: row; }
+}
+
+/* 1024px 이상: 데스크톱 */
+@media (min-width: 1024px) {
+  main > section { padding: 100px 40px; }
+}
+```
 
 반응형 확인은 적어도 모바일(약 390px), 768px, 1024px에서 하세요. 특정 기기 이름보다 콘텐츠가 겹치거나 너무 좁아지는 지점을 기준으로 조정합니다. `box-sizing: border-box`는 선언한 너비에 padding과 border를 포함해 계산하도록 도와줍니다.
 
@@ -123,6 +161,22 @@ JavaScript의 `state` 객체는 현재 UI에 필요한 값을 보관합니다. `
 | 스크롤 UI | 스크롤 이벤트 → `window.scrollY` 확인 | 헤더 스타일과 맨 위 버튼 표시 여부 변경 |
 
 스크롤 위치는 이미 브라우저가 관리하므로 별도 상태로 복제하지 않고 `window.scrollY`에서 바로 계산합니다. 이벤트가 일어나는 지점과 실제 화면 변경 함수가 나뉘어 있는지 따라가 보세요.
+
+테마 전환은 이 패턴을 간단히 보여주는 예입니다. 클릭 핸들러에서 상태를 바꾸고 저장한 뒤, 렌더 함수가 문서 속성과 버튼 안내를 갱신합니다.
+
+```js
+themeButton.addEventListener("click", () => {
+  state.theme = state.theme === "light" ? "dark" : "light";
+  localStorage.setItem("theme", state.theme);
+  renderTheme();
+});
+
+const renderTheme = () => {
+  document.documentElement.dataset.theme = state.theme;
+};
+```
+
+실제 구현은 브라우저가 `localStorage`를 허용하지 않을 때도 테마 전환이 유지되도록 저장과 읽기를 `try/catch`로 보호하고, 버튼 아이콘과 접근성 레이블도 함께 업데이트합니다.
 
 ## 8. GitHub API와 비동기 처리
 
